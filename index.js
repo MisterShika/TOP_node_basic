@@ -12,6 +12,11 @@ const display404 = (res) => {
 };
 
 const redirectHTML = (filename, res) => {
+  if (filename === './'){
+    filename = './index.html';
+  }else{
+    filename = `./${filename}.html`;
+  }
   fs.readFile(filename, function(err, data) {
     if (err) {
       return display404(res);
@@ -25,11 +30,6 @@ const redirectHTML = (filename, res) => {
 http.createServer(function (req, res) {
   const q = url.parse(req.url, true);
   let filename = '.' + q.pathname;
-
-  if (filename === './'){
-    filename = './index.html';
-  }
-
   redirectHTML(filename, res);
 }).listen(8080, () => {
   console.log('Link : http://localhost:8080/');
